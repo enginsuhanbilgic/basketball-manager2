@@ -1,26 +1,19 @@
 package userGUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
-import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
+
+import user.user;
+
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.JLayeredPane;
 import java.awt.Font;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -28,19 +21,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
-import javax.swing.JToggleButton;
-import javax.swing.JTextPane;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
-import user.*;
-
 public class userSignup extends JFrame {
-
+	
 	private static final long serialVersionUID = 1L;
-	private JFrame loginFrame;
 	private JTextField email;
 	private JPasswordField passwordField;
 	protected boolean found;
@@ -153,18 +139,20 @@ public class userSignup extends JFrame {
 				String mailField = email.getText();
 				char[] p = passwordField.getPassword();
 				String passwordfield = new String(p);
+				String[] userArr = null;
 				
 				try(BufferedReader br = new BufferedReader(new FileReader("src//user//user.txt"))){
 					String line;
 					while((line = br.readLine()) != null) {
-						String[] userInfo = line.split(",");
+						String[] userr = line.split(",");
 						
-						String usernameLogged = userInfo[0];
-						String passwordLogged = userInfo[1];
-						String userEmailLogged = userInfo[5];
+						String usernameLogged = userr[0];
+						String passwordLogged = userr[1];
+						String userEmailLogged = userr[5];
 						
 						if((mailField.equals(userEmailLogged) || mailField.equals(usernameLogged)) && passwordfield.equals(passwordLogged)) {
 							found = true;
+							userArr = userr;
 							break;
 						}
 			
@@ -178,7 +166,7 @@ public class userSignup extends JFrame {
 				if(found) {
 					JOptionPane.showMessageDialog(null, "Login Successful!");
 					getLoginFrame().dispose();
-					userRegister.main(null);
+					userInfo.main(userArr);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid username/email or password. Please try again.");
@@ -193,11 +181,10 @@ public class userSignup extends JFrame {
 		gbc_btnNewButton.gridy = 7;
 		login.add(btnNewButton, gbc_btnNewButton);
 		
-		JLabel registerPageLbl = new JLabel(" Don't have an account?");
+		JLabel registerPageLbl = new JLabel("Don't have an account?");
 		registerPageLbl.setForeground(new Color(255, 255, 255));
 		registerPageLbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		GridBagConstraints gbc_registerPageLbl = new GridBagConstraints();
-		gbc_registerPageLbl.anchor = GridBagConstraints.WEST;
 		gbc_registerPageLbl.insets = new Insets(0, 0, 5, 0);
 		gbc_registerPageLbl.gridx = 2;
 		gbc_registerPageLbl.gridy = 12;

@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Formatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +26,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import user.user;
+
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.DefaultComboBoxModel;
@@ -59,7 +63,7 @@ public class userRegister extends JFrame {
 	public JFrame getRegisterFrame() {
 		return this;
 	}
-
+	
 	public userRegister() {
 		setTitle("Register");
 		setResizable(false);
@@ -258,7 +262,11 @@ public class userRegister extends JFrame {
 				String usernamefield = usernameField.getText();
 				String namefield = nameField.getText();
 				String surnamefield = surnameField.getText();
-				int agefield = Integer.parseInt(ageField.getText());
+				int agefield = -999;
+				try {agefield = Integer.parseInt(ageField.getText());}
+				catch(NumberFormatException err) {
+					JOptionPane.showMessageDialog(null, "Age cannot be empty");
+				}
 				boolean register = true;
 				
 				if(passwordfield.length()<8) {
@@ -271,13 +279,13 @@ public class userRegister extends JFrame {
 				}
 				if (!namefield.matches("[\\p{L}&&[^\\s-]]+") && !surnamefield.matches("[\\p{L}&&[^\\s-]]+")) {
 				    register = false;
-				    JOptionPane.showMessageDialog(null, "Name should only contain letters and special characters like ç, ğ, ü");
+				    JOptionPane.showMessageDialog(null, "Name should only contain letters");
 				}
 				if(!usernamefield.matches("[a-zA-Z0-9]+")) {
 					register = false;
 					JOptionPane.showMessageDialog(null, "Username may only contain letters and numbers");
 				}
-				if(agefield<12) {
+				if(agefield<12 && agefield!=-999) {
 					register = false;
 					JOptionPane.showMessageDialog(null, "Age can not be less than 12");
 				}
@@ -314,32 +322,35 @@ public class userRegister extends JFrame {
 		        }
 			    
 				if(register && isEmailUnique && isUsernameUnique) {
-					String imgDir = "src//defaultProfileImage";
-					String userInfo = String.format("%s,%s,%s,%s,%d,%s,%s",usernamefield, passwordfield, namefield, surnamefield, agefield, mailfield, imgDir);
-					try(BufferedWriter bw = new BufferedWriter(new FileWriter("src//user//user.txt", true))){
-						bw.write(userInfo);
+					String imgDir = "C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg";
+					String userInfoStr = String.format("%s,%s,%s,%s,%d,%s,%s",usernamefield, passwordfield, namefield, surnamefield, agefield, mailfield, imgDir);
+					String[] userArr = userInfoStr.split(",");
+					try(BufferedWriter bw = new BufferedWriter(new FileWriter("src//user//user.txt", true))) {
+						bw.write(userInfoStr);
 						bw.newLine();
 						bw.close();
 						JOptionPane.showMessageDialog(null, "User is registered succesfully");
-		
+						user User = new user(usernamefield, passwordfield, namefield, surnamefield, agefield, mailfield, imgDir);
+						userGUI.userInfo.main(userArr);
+						getRegisterFrame().dispose();
 					} catch (FileNotFoundException e1) {
-					} catch (IOException e1) {
+						// TODO Auto-generated catch block
 						e1.printStackTrace();
-						JOptionPane.showMessageDialog(null, "Error registering user.");
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					
+					
 					}
 				}
-				
-				
-				
-			}
-		});
+			});
 		
 		JLabel loginPageLabel = new JLabel(" Already have an account?");
 		loginPageLabel.setForeground(new Color(255, 255, 255));
 		loginPageLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		loginPageLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		GridBagConstraints gbc_loginPageLabel = new GridBagConstraints();
-		gbc_loginPageLabel.anchor = GridBagConstraints.WEST;
 		gbc_loginPageLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_loginPageLabel.gridx = 4;
 		gbc_loginPageLabel.gridy = 16;
