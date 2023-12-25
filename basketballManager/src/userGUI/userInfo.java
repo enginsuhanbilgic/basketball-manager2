@@ -106,9 +106,9 @@ public class userInfo extends JFrame {
 		getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{190, 0};
-		gbl_panel.rowHeights = new int[]{165, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{165, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
 		JButton changeImageBtn = new JButton("");
@@ -203,7 +203,60 @@ public class userInfo extends JFrame {
 		JButton usernameBtn = new JButton("Change username");
 		usernameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String filePath = "src//user//user.txt"; // Replace with your file path
+		        String usernameToFind = userArr[0]; // Replace with the username to locate
+		        String newUsername = usernameField.getText(); // Replace with the new image directory
+
+				try {
+		            File inputFile = new File(filePath);
+		            File tempFile = new File("src//user//temp.txt");
+		            BufferedReader readerFirst = new BufferedReader(new FileReader(inputFile));
+		            BufferedReader readerFinal = new BufferedReader(new FileReader(inputFile));
+		            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+		            String currentLine;
+		            List<String> updatedLines = new ArrayList<>();
+		            int cnt = 0;
+		            while ((currentLine = readerFirst.readLine()) != null) {
+		                String[] userInfo = currentLine.split(",");
+		                if (userInfo.length >= 7 && userInfo[0].equals(newUsername)) {
+		                	cnt++;
+		                }
+		                updatedLines.add(String.join(",", userInfo));
+		            }
+		            
+		            if(cnt==0) {
+		            	updatedLines.clear();
+		            	while ((currentLine = readerFinal.readLine()) != null) {
+			                String[] userInfo = currentLine.split(",");
+			                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
+			                	userInfo[0] = newUsername;
+			                }
+			                updatedLines.add(String.join(",", userInfo));
+			            }
+		            }
+
+		            // Writing the updated lines to the temporary file
+		            for (String line : updatedLines) {
+		                writer.write(line);
+		                writer.newLine();
+		            }
+
+		            writer.close();
+		            readerFirst.close();
+		            readerFinal.close();
+
+		            // Rename the temporary file to the original file
+		            if (inputFile.delete()) {
+		                if (!tempFile.renameTo(inputFile)) {
+		                    System.out.println("Could not rename the temporary file.");
+		                }
+		            } else {
+		                System.out.println("Could not delete the original file.");
+		            }
+		        } catch (IOException e1) {
+		            e1.printStackTrace();
+		        }
 			}
 		});
 		GridBagConstraints gbc_usernameBtn = new GridBagConstraints();
@@ -291,9 +344,22 @@ public class userInfo extends JFrame {
 			}
 		});
 		GridBagConstraints gbc_mailBtn = new GridBagConstraints();
+		gbc_mailBtn.insets = new Insets(0, 0, 5, 0);
 		gbc_mailBtn.gridx = 0;
 		gbc_mailBtn.gridy = 12;
 		panel.add(mailBtn, gbc_mailBtn);
+		
+		JButton goToLoginBtn = new JButton("Go to login page");
+		goToLoginBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				startProgram.main(null);
+				getUserInfoFrame().dispose();
+			}
+		});
+		GridBagConstraints gbc_goToLoginBtn = new GridBagConstraints();
+		gbc_goToLoginBtn.gridx = 0;
+		gbc_goToLoginBtn.gridy = 14;
+		panel.add(goToLoginBtn, gbc_goToLoginBtn);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(190, 0, 644, 501);
