@@ -310,7 +310,7 @@ public class userInfo extends JFrame {
 		panel.add(ageField, gbc_ageField);
 		ageField.setColumns(10);
 		
-		JButton ageBtn = new JButton("Change age");
+		JButton ageBtn = new JButton("Change age ");
 		ageBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
