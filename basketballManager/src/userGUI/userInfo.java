@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import user.user;
 
 import java.awt.GridBagConstraints;
@@ -29,6 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import java.awt.Font;
 
 public class userInfo extends JFrame {
 
@@ -43,7 +46,7 @@ public class userInfo extends JFrame {
 			public void run() {
 				try {
 					userInfo frame = new userInfo(userArr);
-					frame.setSize(850, 540);
+					frame.setSize(640, 540);
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -96,8 +99,9 @@ public class userInfo extends JFrame {
 		}
 
 		setTitle("User Information");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 849, 540);
+		setBounds(100, 100, 640, 541);
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
@@ -111,6 +115,11 @@ public class userInfo extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
+		//Action listener for changing the profile image and saving it
+		//First we have our current image directory. When the user
+		//clicks the button, it opens the directory chooser and
+		//user can select an image. That image will take the place 
+		//of the old image in the txt file and in the user array
 		JButton changeImageBtn = new JButton("");
 		changeImageBtn.addActionListener(new ActionListener() {
 			@Override
@@ -125,9 +134,9 @@ public class userInfo extends JFrame {
 					changeImageBtn.setIcon(new ImageIcon(image));
 					userArr[6] = selectedFile.getAbsolutePath();
 					
-					String filePath = "src//user//user.txt"; // Replace with your file path
-			        String usernameToFind = userArr[0]; // Replace with the username to locate
-			        String newImageDirectory = selectedFile.getAbsolutePath(); // Replace with the new image directory
+					String filePath = "src//user//user.txt"; 
+			        String usernameToFind = userArr[0]; 
+			        String newImageDirectory = selectedFile.getAbsolutePath(); 
 
 					try {
 			            File inputFile = new File(filePath);
@@ -143,6 +152,7 @@ public class userInfo extends JFrame {
 			                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
 			                    // Found the user by username, update the image directory
 			                    userInfo[6] = newImageDirectory;
+			                    JOptionPane.showMessageDialog(null, "Profile image changed");
 			                }
 			                updatedLines.add(String.join(",", userInfo));
 			            }
@@ -159,10 +169,10 @@ public class userInfo extends JFrame {
 			            // Rename the temporary file to the original file
 			            if (inputFile.delete()) {
 			                if (!tempFile.renameTo(inputFile)) {
-			                    System.out.println("Could not rename the temporary file.");
+			                	JOptionPane.showMessageDialog(null, "Could not rename the temporary file");
 			                }
 			            } else {
-			                System.out.println("Could not delete the original file.");
+			            	JOptionPane.showMessageDialog(null, "Could not delete the original file");
 			            }
 			        } catch (IOException e1) {
 			            e1.printStackTrace();
@@ -179,6 +189,82 @@ public class userInfo extends JFrame {
 		gbc_changeImageBtn.gridx = 0;
 		gbc_changeImageBtn.gridy = 0;
 		panel.add(changeImageBtn, gbc_changeImageBtn);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBounds(190, 0, 434, 501);
+		getContentPane().add(panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{429, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
+		
+		
+		JLabel userInformationLbl = new JLabel("User Information");
+		userInformationLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		GridBagConstraints gbc_userInformationLbl = new GridBagConstraints();
+		gbc_userInformationLbl.insets = new Insets(0, 0, 5, 0);
+		gbc_userInformationLbl.gridx = 0;
+		gbc_userInformationLbl.gridy = 0;
+		panel_1.add(userInformationLbl, gbc_userInformationLbl);
+		
+		JLabel lblNewLabel = new JLabel(" ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		panel_1.add(lblNewLabel, gbc_lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel(" ");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 0;
+		gbc_lblNewLabel_1.gridy = 2;
+		panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		JLabel usernameShowLbl = new JLabel(String.format("Username:    %s", userArr[0]));
+		usernameShowLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		GridBagConstraints gbc_usernameShowLbl = new GridBagConstraints();
+		gbc_usernameShowLbl.insets = new Insets(0, 0, 5, 0);
+		gbc_usernameShowLbl.gridx = 0;
+		gbc_usernameShowLbl.gridy = 5;
+		panel_1.add(usernameShowLbl, gbc_usernameShowLbl);
+		
+		JLabel ageShowLbl = new JLabel(String.format("Age:    %s", userArr[4]));
+		ageShowLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		GridBagConstraints gbc_ageShowLbl = new GridBagConstraints();
+		gbc_ageShowLbl.insets = new Insets(0, 0, 5, 0);
+		gbc_ageShowLbl.gridx = 0;
+		gbc_ageShowLbl.gridy = 7;
+		panel_1.add(ageShowLbl, gbc_ageShowLbl);
+		
+		JLabel mailShowLbl = new JLabel(String.format("Mail:    %s", userArr[5]));
+		mailShowLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		GridBagConstraints gbc_mailShowLbl = new GridBagConstraints();
+		gbc_mailShowLbl.insets = new Insets(0, 0, 5, 0);
+		gbc_mailShowLbl.gridx = 0;
+		gbc_mailShowLbl.gridy = 9;
+		panel_1.add(mailShowLbl, gbc_mailShowLbl);
+		
+		JLabel nameShowLbl = new JLabel(String.format("Name:    %s", userArr[2]));
+		nameShowLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		GridBagConstraints gbc_nameShowLbl = new GridBagConstraints();
+		gbc_nameShowLbl.insets = new Insets(0, 0, 5, 0);
+		gbc_nameShowLbl.gridx = 0;
+		gbc_nameShowLbl.gridy = 11;
+		panel_1.add(nameShowLbl, gbc_nameShowLbl);
+		
+		JLabel surnameShowLbl = new JLabel(String.format("Surname:    %s", userArr[3]));
+		surnameShowLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		GridBagConstraints gbc_surnameShowLbl = new GridBagConstraints();
+		gbc_surnameShowLbl.insets = new Insets(0, 0, 5, 0);
+		gbc_surnameShowLbl.gridx = 0;
+		gbc_surnameShowLbl.gridy = 13;
+		panel_1.add(surnameShowLbl, gbc_surnameShowLbl);
 		
 		JLabel usernameLbl = new JLabel(" Change username");
 		usernameLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -200,12 +286,15 @@ public class userInfo extends JFrame {
 		panel.add(usernameField, gbc_usernameField);
 		usernameField.setColumns(10);
 		
+		//Action listener for changing the username
+		//Works similar to the image directory change
+		//But there is no file selection or image changing
 		JButton usernameBtn = new JButton("Change username");
 		usernameBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String filePath = "src//user//user.txt"; // Replace with your file path
-		        String usernameToFind = userArr[0]; // Replace with the username to locate
-		        String newUsername = usernameField.getText(); // Replace with the new image directory
+				String filePath = "src//user//user.txt"; 
+		        String usernameToFind = userArr[0]; 
+		        String newUsername = usernameField.getText(); 
 
 				try {
 		            File inputFile = new File(filePath);
@@ -231,11 +320,15 @@ public class userInfo extends JFrame {
 			                String[] userInfo = currentLine.split(",");
 			                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
 			                	userInfo[0] = newUsername;
+			                	JOptionPane.showMessageDialog(null, "Username changed");
+			                	usernameShowLbl.setText(String.format("Username:    %s", newUsername));
 			                }
 			                updatedLines.add(String.join(",", userInfo));
 			            }
 		            }
-
+		            else {
+		            	JOptionPane.showMessageDialog(null, "Username is occupied");
+		            }
 		            // Writing the updated lines to the temporary file
 		            for (String line : updatedLines) {
 		                writer.write(line);
@@ -249,10 +342,10 @@ public class userInfo extends JFrame {
 		            // Rename the temporary file to the original file
 		            if (inputFile.delete()) {
 		                if (!tempFile.renameTo(inputFile)) {
-		                    System.out.println("Could not rename the temporary file.");
+		                	JOptionPane.showMessageDialog(null, "Could not rename the temporary file");
 		                }
 		            } else {
-		                System.out.println("Could not delete the original file.");
+		            	JOptionPane.showMessageDialog(null, "Could not delete the original file");
 		            }
 		        } catch (IOException e1) {
 		            e1.printStackTrace();
@@ -285,6 +378,55 @@ public class userInfo extends JFrame {
 		JButton passwordBtn = new JButton("Change password");
 		passwordBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String filePath = "src//user//user.txt"; 
+		        String usernameToFind = userArr[0]; 
+		        String newPassword = passwordField.getText(); 
+
+				try {
+		            File inputFile = new File(filePath);
+		            File tempFile = new File("src//user//temp.txt");
+		            BufferedReader readerFirst = new BufferedReader(new FileReader(inputFile));
+		            BufferedReader readerFinal = new BufferedReader(new FileReader(inputFile));
+		            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+		            String currentLine;
+		            List<String> updatedLines = new ArrayList<>();
+
+	            	while ((currentLine = readerFinal.readLine()) != null) {
+		                String[] userInfo = currentLine.split(",");
+		                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
+		                	if(newPassword.length()>8) {
+		                		userInfo[1] = newPassword;
+		                		JOptionPane.showMessageDialog(null, "Password changed");
+		                	}
+		                	else {
+		                		JOptionPane.showMessageDialog(null, "Password cannot be shorter than 8 characters");
+		                	}
+		                }
+		                updatedLines.add(String.join(",", userInfo));
+		            }
+		           
+		            // Writing the updated lines to the temporary file
+		            for (String line : updatedLines) {
+		                writer.write(line);
+		                writer.newLine();
+		            }
+
+		            writer.close();
+		            readerFirst.close();
+		            readerFinal.close();
+
+		            // Rename the temporary file to the original file
+		            if (inputFile.delete()) {
+		                if (!tempFile.renameTo(inputFile)) {
+		                	JOptionPane.showMessageDialog(null, "Could not rename the temporary file");
+		                }
+		            } else {
+		            	JOptionPane.showMessageDialog(null, "Could not delete the original file");
+		            }
+		        } catch (IOException e1) {
+		            e1.printStackTrace();
+		        }
 			}
 		});
 		GridBagConstraints gbc_passwordBtn = new GridBagConstraints();
@@ -313,6 +455,56 @@ public class userInfo extends JFrame {
 		JButton ageBtn = new JButton("Change age ");
 		ageBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String filePath = "src//user//user.txt"; 
+		        String usernameToFind = userArr[0]; 
+		        String newAge = ageField.getText(); 
+
+				try {
+		            File inputFile = new File(filePath);
+		            File tempFile = new File("src//user//temp.txt");
+		            BufferedReader readerFirst = new BufferedReader(new FileReader(inputFile));
+		            BufferedReader readerFinal = new BufferedReader(new FileReader(inputFile));
+		            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+		            String currentLine;
+		            List<String> updatedLines = new ArrayList<>();
+
+	            	while ((currentLine = readerFinal.readLine()) != null) {
+		                String[] userInfo = currentLine.split(",");
+		                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
+		                	if(Integer.parseInt(newAge)>12) {
+		                		userInfo[4] = newAge;
+		                		JOptionPane.showMessageDialog(null, "Age changed");
+		                		ageShowLbl.setText(String.format("Age:    %s", newAge));
+		                	}
+		                	else {
+		                		JOptionPane.showMessageDialog(null, "Age cannot be smaller than 12");
+		                	}
+		                }
+		                updatedLines.add(String.join(",", userInfo));
+		            }
+		           
+		            // Writing the updated lines to the temporary file
+		            for (String line : updatedLines) {
+		                writer.write(line);
+		                writer.newLine();
+		            }
+
+		            writer.close();
+		            readerFirst.close();
+		            readerFinal.close();
+
+		            // Rename the temporary file to the original file
+		            if (inputFile.delete()) {
+		                if (!tempFile.renameTo(inputFile)) {
+		                	JOptionPane.showMessageDialog(null, "Could not rename the temporary file");
+		                }
+		            } else {
+		            	JOptionPane.showMessageDialog(null, "Could not delete the original file");
+		            }
+		        } catch (IOException e1) {
+		            e1.printStackTrace();
+		        }
 			}
 		});
 		GridBagConstraints gbc_ageBtn = new GridBagConstraints();
@@ -341,6 +533,64 @@ public class userInfo extends JFrame {
 		JButton mailBtn = new JButton("Change mail");
 		mailBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String filePath = "src//user//user.txt"; 
+		        String mailToFind = userArr[5]; 
+		        String newMail = mailField.getText(); 
+
+				try {
+		            File inputFile = new File(filePath);
+		            File tempFile = new File("src//user//temp.txt");
+		            BufferedReader readerFirst = new BufferedReader(new FileReader(inputFile));
+		            BufferedReader readerFinal = new BufferedReader(new FileReader(inputFile));
+		            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+		            String currentLine;
+		            List<String> updatedLines = new ArrayList<>();
+		            int cnt = 0;
+		            while ((currentLine = readerFirst.readLine()) != null) {
+		                String[] userInfo = currentLine.split(",");
+		                if (userInfo.length >= 7 && userInfo[5].equals(newMail)) {
+		                	cnt++;
+		                }
+		                updatedLines.add(String.join(",", userInfo));
+		            }
+		            
+		            if(cnt==0) {
+		            	updatedLines.clear();
+		            	while ((currentLine = readerFinal.readLine()) != null) {
+			                String[] userInfo = currentLine.split(",");
+			                if (userInfo.length >= 7 && userInfo[5].equals(mailToFind)) {
+			                	userInfo[5] = newMail;
+			                	JOptionPane.showMessageDialog(null, "E-mail changed");
+			                	mailShowLbl.setText(String.format("E-mail:    %s", newMail));
+			                }
+			                updatedLines.add(String.join(",", userInfo));
+			            }
+		            }
+		            else {
+		            	JOptionPane.showMessageDialog(null, "This e-mail is occupied");
+		            }
+		            // Writing the updated lines to the temporary file
+		            for (String line : updatedLines) {
+		                writer.write(line);
+		                writer.newLine();
+		            }
+
+		            writer.close();
+		            readerFirst.close();
+		            readerFinal.close();
+
+		            // Rename the temporary file to the original file
+		            if (inputFile.delete()) {
+		                if (!tempFile.renameTo(inputFile)) {
+		                	JOptionPane.showMessageDialog(null, "Could not rename the temporary file");
+		                }
+		            } else {
+		            	JOptionPane.showMessageDialog(null, "Could not delete the original file");
+		            }
+		        } catch (IOException e1) {
+		            e1.printStackTrace();
+		        }
 			}
 		});
 		GridBagConstraints gbc_mailBtn = new GridBagConstraints();
@@ -361,14 +611,8 @@ public class userInfo extends JFrame {
 		gbc_goToLoginBtn.gridy = 14;
 		panel.add(goToLoginBtn, gbc_goToLoginBtn);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(190, 0, 644, 501);
-		getContentPane().add(panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_1.setLayout(gbl_panel_1);
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(621, 0, 212, 501);
+		getContentPane().add(panel_2);
 	}
 }
