@@ -1,9 +1,9 @@
-package userGUI;
+package startProgram;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import player.PlayerInit;
+import userGUI.userSignup;
 
 public class startProgram {
 	
@@ -11,6 +11,7 @@ public class startProgram {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					PlayerInit.playerInit();
 					userSignup frame = new userSignup();
 					frame.setSize(810, 486);
 					frame.setLocationRelativeTo(null);

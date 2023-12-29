@@ -2,6 +2,8 @@ package userGUI;
 
 import java.awt.EventQueue;
 
+import gameGUI.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -10,7 +12,6 @@ import java.awt.Image;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import user.user;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -30,6 +31,9 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+
+import startProgram.startProgram;
+
 import javax.swing.JTextField;
 import java.awt.Font;
 
@@ -41,7 +45,7 @@ public class userInfo extends JFrame {
 	private JTextField ageField;
 	private JTextField mailField;
 
-	public static void main(String[] userArr) {
+	public static void userInfoInit(String[] userArr) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -59,7 +63,7 @@ public class userInfo extends JFrame {
 	public JFrame getUserInfoFrame() {
 		return this;
 	}
-
+	
 	public userInfo(String[] userAr) {
 		final String[] userArr = new String[7];
 		if(userAr.length==0) {
@@ -101,7 +105,7 @@ public class userInfo extends JFrame {
 		setTitle("User Information");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 541);
+		setBounds(100, 100, 640, 540);
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
@@ -125,6 +129,7 @@ public class userInfo extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
+				fc.setCurrentDirectory(fc.getFileSystemView().getParentDirectory(new File("C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\logos\\")));
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int result = fc.showOpenDialog(null);
 				if (result==JFileChooser.APPROVE_OPTION) {
@@ -197,8 +202,8 @@ public class userInfo extends JFrame {
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{429, 0};
 		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		
@@ -266,6 +271,24 @@ public class userInfo extends JFrame {
 		gbc_surnameShowLbl.gridy = 13;
 		panel_1.add(surnameShowLbl, gbc_surnameShowLbl);
 		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(255, 255, 255));
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.gridheight = 2;
+		gbc_panel_2.anchor = GridBagConstraints.SOUTHEAST;
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 14;
+		panel_1.add(panel_2, gbc_panel_2);
+		
+		JButton btnNewButton = new JButton("Start game");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initUserTeam.runInitUserTeam(userArr);
+				getUserInfoFrame().dispose();
+			}
+		});
+		panel_2.add(btnNewButton);
+		
 		JLabel usernameLbl = new JLabel(" Change username");
 		usernameLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_usernameLbl = new GridBagConstraints();
@@ -308,23 +331,27 @@ public class userInfo extends JFrame {
 		            int cnt = 0;
 		            while ((currentLine = readerFirst.readLine()) != null) {
 		                String[] userInfo = currentLine.split(",");
-		                if (userInfo.length >= 7 && userInfo[0].equals(newUsername)) {
+		                if (userInfo[0].equals(newUsername)) {
 		                	cnt++;
 		                }
 		                updatedLines.add(String.join(",", userInfo));
 		            }
 		            
-		            if(cnt==0) {
+		            if(cnt==0 && newUsername.length()!=0) {
 		            	updatedLines.clear();
 		            	while ((currentLine = readerFinal.readLine()) != null) {
 			                String[] userInfo = currentLine.split(",");
-			                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
+			                if (userInfo[0].equals(usernameToFind)) {
 			                	userInfo[0] = newUsername;
+			                	userArr[0] = newUsername;
 			                	JOptionPane.showMessageDialog(null, "Username changed");
 			                	usernameShowLbl.setText(String.format("Username:    %s", newUsername));
 			                }
 			                updatedLines.add(String.join(",", userInfo));
 			            }
+		            }
+		            else if(cnt==0 && newUsername.length()==0) {
+		            	JOptionPane.showMessageDialog(null, "Username cannot be empty");
 		            }
 		            else {
 		            	JOptionPane.showMessageDialog(null, "Username is occupied");
@@ -394,9 +421,10 @@ public class userInfo extends JFrame {
 
 	            	while ((currentLine = readerFinal.readLine()) != null) {
 		                String[] userInfo = currentLine.split(",");
-		                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
+		                if (userInfo[0].equals(usernameToFind)) {
 		                	if(newPassword.length()>8) {
 		                		userInfo[1] = newPassword;
+		                		userArr[1] = newPassword;
 		                		JOptionPane.showMessageDialog(null, "Password changed");
 		                	}
 		                	else {
@@ -468,20 +496,30 @@ public class userInfo extends JFrame {
 
 		            String currentLine;
 		            List<String> updatedLines = new ArrayList<>();
-
-	            	while ((currentLine = readerFinal.readLine()) != null) {
-		                String[] userInfo = currentLine.split(",");
-		                if (userInfo.length >= 7 && userInfo[0].equals(usernameToFind)) {
-		                	if(Integer.parseInt(newAge)>12) {
-		                		userInfo[4] = newAge;
-		                		JOptionPane.showMessageDialog(null, "Age changed");
-		                		ageShowLbl.setText(String.format("Age:    %s", newAge));
-		                	}
-		                	else {
-		                		JOptionPane.showMessageDialog(null, "Age cannot be smaller than 12");
-		                	}
-		                }
-		                updatedLines.add(String.join(",", userInfo));
+		            
+		            try {
+		            	while ((currentLine = readerFinal.readLine()) != null) {
+			                String[] userInfo = currentLine.split(",");
+			                if (userInfo[0].equals(usernameToFind)) {
+			                	if(Integer.parseInt(newAge)>12) {
+			                		userInfo[4] = newAge;
+			                		userArr[4] = newAge;
+			                		JOptionPane.showMessageDialog(null, "Age changed");
+			                		ageShowLbl.setText(String.format("Age:    %s", newAge));
+			                	}
+			                	else {
+			                		JOptionPane.showMessageDialog(null, "Age cannot be smaller than 12");
+			                	}
+			                }
+			                updatedLines.add(String.join(",", userInfo));
+			            }
+		            } catch(NumberFormatException err) {
+		            	JOptionPane.showMessageDialog(null, "Age cannot be a non-integer");
+		            	updatedLines.add(String.join(",", userArr));
+		            	while((currentLine = readerFinal.readLine()) != null) {
+		            		String[] userInfo = currentLine.split(",");
+		            		updatedLines.add(String.join(",", userInfo));
+		            	}
 		            }
 		           
 		            // Writing the updated lines to the temporary file
@@ -555,17 +593,21 @@ public class userInfo extends JFrame {
 		                updatedLines.add(String.join(",", userInfo));
 		            }
 		            
-		            if(cnt==0) {
+		            if(cnt==0 && newMail.length()!=0) {
 		            	updatedLines.clear();
 		            	while ((currentLine = readerFinal.readLine()) != null) {
 			                String[] userInfo = currentLine.split(",");
 			                if (userInfo.length >= 7 && userInfo[5].equals(mailToFind)) {
 			                	userInfo[5] = newMail;
+			                	userArr[5] = newMail;
 			                	JOptionPane.showMessageDialog(null, "E-mail changed");
 			                	mailShowLbl.setText(String.format("E-mail:    %s", newMail));
 			                }
 			                updatedLines.add(String.join(",", userInfo));
 			            }
+		            }
+		            else if(cnt==0 && newMail.length()==0) {
+		            	JOptionPane.showMessageDialog(null, "E-mail cannot be empty");
 		            }
 		            else {
 		            	JOptionPane.showMessageDialog(null, "This e-mail is occupied");
@@ -610,9 +652,5 @@ public class userInfo extends JFrame {
 		gbc_goToLoginBtn.gridx = 0;
 		gbc_goToLoginBtn.gridy = 14;
 		panel.add(goToLoginBtn, gbc_goToLoginBtn);
-
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(621, 0, 212, 501);
-		getContentPane().add(panel_2);
 	}
 }

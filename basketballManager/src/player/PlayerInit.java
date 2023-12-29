@@ -13,15 +13,15 @@ import javax.swing.JOptionPane;
 
 public class PlayerInit {
 	
+	private static List<Player> players = new ArrayList<>();
+	private static List<C> Cplayers = new ArrayList<>();
+	private static List<PF> PFplayers = new ArrayList<>();
+	private static List<PG> PGplayers = new ArrayList<>();
+	private static List<SF> SFplayers = new ArrayList<>();
+	private static List<SG> SGplayers = new ArrayList<>();
+	
 	public static void playerInit() {
-		
-		List<Player> players = new ArrayList<>();
-		List<Player> Cplayers = new ArrayList<>();
-		List<Player> PFplayers = new ArrayList<>();
-		List<Player> PGplayers = new ArrayList<>();
-		List<Player> SFplayers = new ArrayList<>();
-		List<Player> SGplayers = new ArrayList<>();
-		
+
 		int previousIndex = 0;
 		try(BufferedReader br = new BufferedReader(new FileReader("src//player//PlayerStatsUnfiltered.csv"))){
 			String line;
@@ -150,5 +150,12 @@ public class PlayerInit {
 		
 		
 	}
+	
+	public static List<Player> getPlayers() {return players;}
+	public static List<C> getCPlayers() {return Cplayers;}
+	public static List<PF> getPFPlayers() {return PFplayers;}
+	public static List<PG> getPGPlayers() {return PGplayers;}
+	public static List<SF> getSFPlayers() {return SFplayers;}
+	public static List<SG> getSGPlayers() {return SGplayers;}	
 	
 }

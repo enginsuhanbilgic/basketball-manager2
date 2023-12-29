@@ -14,7 +14,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Formatter;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,13 +24,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
+import startProgram.startProgram;
 import user.user;
-
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.DefaultComboBoxModel;
 
 public class userRegister extends JFrame {
 
@@ -45,7 +40,7 @@ public class userRegister extends JFrame {
 	private JTextField surnameField;
 	private JTextField ageField;
 
-	public static void main(String[] args) {
+	public static void userRegisterInit() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -265,7 +260,7 @@ public class userRegister extends JFrame {
 				int agefield = -999;
 				try {agefield = Integer.parseInt(ageField.getText());}
 				catch(NumberFormatException err) {
-					JOptionPane.showMessageDialog(null, "Age cannot be empty");
+					JOptionPane.showMessageDialog(null, "Age cannot be non-integer");
 				}
 				boolean register = true;
 				
@@ -331,7 +326,7 @@ public class userRegister extends JFrame {
 						bw.close();
 						JOptionPane.showMessageDialog(null, "User is registered succesfully");
 						user User = new user(usernamefield, passwordfield, namefield, surnamefield, agefield, mailfield, imgDir);
-						userGUI.userInfo.main(userArr);
+						userInfo.userInfoInit(userArr);
 						getRegisterFrame().dispose();
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block

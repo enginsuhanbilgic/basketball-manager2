@@ -166,7 +166,7 @@ public class userSignup extends JFrame {
 				if(found) {
 					JOptionPane.showMessageDialog(null, "Login Successful!");
 					getLoginFrame().dispose();
-					userInfo.main(userArr);
+					userInfo.userInfoInit(userArr);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Invalid username/email or password. Please try again.");
@@ -193,7 +193,7 @@ public class userSignup extends JFrame {
 		JButton registerPageButton = new JButton("Go to register page");
 		registerPageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				userRegister.main(null);
+				userRegister.userRegisterInit();
 				getLoginFrame().dispose();
 			}
 		});
