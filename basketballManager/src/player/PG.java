@@ -35,5 +35,12 @@ public class PG extends Player{
 		return (int) Math.round(pointScore + reboundScore + assistScore + blockScore + stealScore);
 	}
 	
+	@Override
+	public String toString() {
+		return this.getName() + " Position: " + this.getPosition() + " Points: " + this.getPoints() + 
+				" Rebounds: " + this.getRebounds() + " Assists: " + this.getAssists() + " Blocks: "
+				+ this.getBlocks() + " Steals: " + this.getSteals();
+	}
+	
 	
 }

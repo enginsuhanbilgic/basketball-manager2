@@ -46,6 +46,7 @@ public class Team {
 	public String getTeamName() {return this.teamName;}
 	public String getImgDir() {return this.imgDir;}
 	public List<Player> getPlayers() {return this.players;}
+	public void removePlayer(Player player) {this.players.remove(player);}
 	
 	public void setName(String name) {this.teamName = name;}
 	public void setImgDir(String imgDir) {this.imgDir = imgDir;}
