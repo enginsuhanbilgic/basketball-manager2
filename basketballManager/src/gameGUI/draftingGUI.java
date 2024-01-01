@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import team.Team;
 import team.TeamInit;
@@ -41,6 +44,8 @@ import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Toolkit;
 import javax.swing.JComboBox;
 
@@ -82,11 +87,16 @@ public class draftingGUI extends JFrame {
 		Collections.reverse(selectingOrderReversed);	
 	}
 	
+	protected JFrame getDraftingGUIFrame() {
+		return this;
+	}
+	
 	/**
 	 * Create the frame.
 	 */
 	public draftingGUI(String[] userArr, Team userTeam) {
 		setTitle("Drafting Session");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 567);
 		contentPane = new JPanel();
@@ -99,19 +109,20 @@ public class draftingGUI extends JFrame {
 		panel.setBackground(new Color(255, 128, 64));
 		panel.setBounds(0, 0, 884, 528);
 		contentPane.add(panel);
-		panel.setLayout(new MigLayout("", "[][][][grow][][][][][][grow][grow][][][][38.00]", "[][30.00][][21.00,grow][][grow][grow][grow][][][][][]"));
+		panel.setLayout(new MigLayout("", "[][][][grow][][][][][grow][grow][grow][][][][38.00]", "[][30.00][][21.00,grow][][grow][grow][grow][][][][][]"));
 		
 		JButton teamLogoBtn = new JButton("");
 		teamLogoBtn.setIcon(new ImageIcon("C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg"));
 		
 		JLabel selectingOrderLbl = new JLabel("Selecting order");
 		selectingOrderLbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		panel.add(selectingOrderLbl, "cell 9 1 3 1,alignx center,aligny bottom");
+		panel.add(selectingOrderLbl, "cell 7 1 3 1,alignx center,aligny bottom");
 		
 		JTextArea selectingOrderTextArea = new JTextArea();
 		selectingOrderTextArea.setEditable(false);
-		selectingOrderTextArea.append(teamOrder);
-		panel.add(selectingOrderTextArea, "cell 9 2 3 3,grow");
+		selectingOrderTextArea.setText(teamOrder); // Use setText instead of append
+		selectingOrderTextArea.setAlignmentX(CENTER_ALIGNMENT);
+		panel.add(selectingOrderTextArea, "cell 7 2 3 3,grow");
 		
 		JLabel selectingTeamLbl = new JLabel("");
 		selectingTeamLbl.setHorizontalAlignment(SwingConstants.CENTER);
@@ -126,6 +137,10 @@ public class draftingGUI extends JFrame {
 		comboBox.setSelectedIndex(-1);
 		comboBox.setSelectedItem(draftedPlayerTextArea);
 		
+		JButton viewTeamBtn = new JButton("View Team");
+		viewTeamBtn.setEnabled(false);
+		JButton startTournament = new JButton("StartTournament");
+		startTournament.setEnabled(false);
 		JButton nextStepBtn = new JButton("Next Step");
 		JButton saveChoiceBtn = new JButton("saveChoice");
 		saveChoiceBtn.setEnabled(false);
@@ -146,6 +161,11 @@ public class draftingGUI extends JFrame {
 				nextStepBtn.setEnabled(true);
 				comboBox.setSelectedIndex(-1);
 				tour++;
+				if(tour==80) {
+					startTournament.setEnabled(true);
+					nextStepBtn.setEnabled(false);
+					viewTeamBtn.setEnabled(true);
+				}
 			}
 		});
 		
@@ -153,28 +173,13 @@ public class draftingGUI extends JFrame {
 		nextStepBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Team teamInLine;
-				if(tour <= 15 && tour>= 0) {
-					
-				}
 				
-				if(tour <= 31 && tour>= 16) {
-					
-				}
-				
-				if(tour <= 47 && tour>= 32) {
-					
-				}
-				
-				if(tour <= 63 && tour>= 48) {
-					
-				}
-				
-				if(tour <= 79 && tour>= 64) {
-					
-				}
 				SecureRandom randnum = new SecureRandom();
-				if(tour >= 80) {
+				if(tour == 80) {
+					JOptionPane.showMessageDialog(null, "Drafting session is done");
 					nextStepBtn.setEnabled(false);
+					startTournament.setEnabled(true);
+					viewTeamBtn.setEnabled(true);
 				}
 				if(tour<80) {
 					nextStepBtn.setEnabled(true);
@@ -326,15 +331,15 @@ public class draftingGUI extends JFrame {
 		});
 		
 
-		panel.add(comboBox, "cell 9 7 3 1,growx");
+		panel.add(comboBox, "cell 7 7 3 1,growx");
 		
-		panel.add(saveChoiceBtn, "cell 9 8");
+		panel.add(saveChoiceBtn, "cell 8 8,alignx center");
 		panel.add(nextStepBtn, "cell 7 11");
 		
 		panel.add(teamLogoBtn, "cell 3 2,alignx center,aligny center");
 		
-		JButton btnNewButton = new JButton("StartTournament");
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		startTournament.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (Team team : TeamInit.getTeams()) {
 					System.out.println(team.getTeamName());
@@ -343,14 +348,28 @@ public class draftingGUI extends JFrame {
 						System.out.println(player.getName() + " Position: " + player.getPosition());
 					}
 				}
+				Matchmaking.initMatchmaking(userArr, userTeam);
+				getDraftingGUIFrame().dispose();
 			}
 		});
-		panel.add(btnNewButton, "cell 10 11,alignx center,aligny center");
+		
+		
+		viewTeamBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TeamInfo.initTeamInfo(userArr, userTeam);
+			}
+		});
+		panel.add(viewTeamBtn, "cell 8 11,alignx center");
+		panel.add(startTournament, "cell 9 11 2 1,alignx center,aligny center");
+		
+		JLabel lblNewLabel = new JLabel("");
+		panel.add(lblNewLabel, "cell 14 11");
 		
 	}
 	
 	/**
-	 * 
+	 * Generic class for displaying items
+	 * In my case T is passed as Player
 	 * @param <T>
 	 */
 	private static class DisplayItem<T>{
