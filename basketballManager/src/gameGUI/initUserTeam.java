@@ -24,16 +24,19 @@ import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-
+/**
+ * Class to create the team of the user
+ */
 public class initUserTeam extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField teamNameField;
-	private String imgDir = "C:\\\\Users\\\\EBILGIC20\\\\git\\\\repository2\\\\basketballManager\\\\src\\\\defaultProfileImage.jpg";
+	private String imgDir = "C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg";
 
 	/**
-	 * Launch the application.
+	 * Initialize the frame
+	 * @param userArr Array type, stores information of the user
 	 */
 	public static void runInitUserTeam(String[] userArr) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,12 +53,17 @@ public class initUserTeam extends JFrame {
 		});
 	}
 	
+	/**
+	 * Returns the current frame
+	 * @return JFrame
+	 */
 	public JFrame getInitUserTeamFrame() {
 		return this;
 	}
 
 	/**
-	 * Create the frame.
+	 * 
+	 * @param userArr Array type, stores information of the user
 	 */
 	public initUserTeam(String[] userArr) {
 		setTitle("Configure team info");
@@ -89,6 +97,10 @@ public class initUserTeam extends JFrame {
 		teamLogoBtn.setBackground(new Color(255, 255, 255));
 		teamLogoBtn.setBounds(53, 61, 183, 159);
 		teamLogoBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to enable user to chose image from directory
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
 				fc.setCurrentDirectory(fc.getFileSystemView().getParentDirectory(new File("C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\logos\\")));
@@ -115,6 +127,11 @@ public class initUserTeam extends JFrame {
 		
 		JButton goToUserInfoBtn = new JButton("goToUserInfo");
 		goToUserInfoBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to return to user info frame
+			 * It first opens the user info frame, then disposes initUserTeam frame
+			 * Team information is not stored
+			 */
 			public void actionPerformed(ActionEvent e) {
 				userInfo.userInfoInit(userArr);
 				getInitUserTeamFrame().dispose();
@@ -125,6 +142,12 @@ public class initUserTeam extends JFrame {
 		
 		JButton startDraftingSessionBtn = new JButton("Start Drafting Session");
 		startDraftingSessionBtn.addActionListener(new ActionListener() {
+			/**
+			 * Method to start the drafting session
+			 * It creates a team object with user team information
+			 * Then opens the drafting frame and disposes this frame
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				Team userTeam = new	Team(teamNameField.getText(), imgDir);
 				JOptionPane.showMessageDialog(null, "Succesfully created team");

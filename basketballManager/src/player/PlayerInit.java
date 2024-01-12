@@ -10,7 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-
+/**
+ * Class to initialize players
+ * It reads the unfiltered player file
+ * Filters it, seperates it according to their positions
+ * saves them to lists and player csv files
+ */
 public class PlayerInit {
 	
 	private static List<Player> players = new ArrayList<>();
@@ -19,7 +24,13 @@ public class PlayerInit {
 	private static List<PG> PGplayers = new ArrayList<>();
 	private static List<SF> SFplayers = new ArrayList<>();
 	private static List<SG> SGplayers = new ArrayList<>();
-	
+	/**
+	 * Player Initializer static method
+	 * It reads from PlayerStatsUnfiltered.csv
+	 * Takes the necessary information and creates player subclass objects
+	 * adds them to the player and positions lists
+	 * It also writes them to positions csv files and PlayerStatsFiltered.csv
+	 */
 	public static void playerInit() {
 
 		int previousIndex = 0;
@@ -73,6 +84,25 @@ public class PlayerInit {
 						players.add(playerSG);
 						SGplayers.add(playerSG);
 						break;
+					case "PF-SF":
+						playerPF = new PF(name, position, points, rebounds, assists, blocks, steals);
+						players.add(playerPF);
+						PFplayers.add(playerPF);
+						break;
+					case "SF-SG":
+						playerSF = new SF(name, position, points, rebounds, assists, blocks, steals);
+						players.add(playerSF);
+						SFplayers.add(playerSF);
+						break;
+					case "SG-PG":
+						playerSG = new SG(name, position, points, rebounds, assists, blocks, steals);
+						players.add(playerSG);
+						SGplayers.add(playerSG);
+						break;
+						
+					
+					
+						
 					}
 				}
 			}
@@ -151,6 +181,10 @@ public class PlayerInit {
 		
 	}
 	
+	/**
+	 * Getter methods for player lists
+	 * @return List  
+	 */
 	public static List<Player> getPlayers() {return players;}
 	public static List<C> getCPlayers() {return Cplayers;}
 	public static List<PF> getPFPlayers() {return PFplayers;}

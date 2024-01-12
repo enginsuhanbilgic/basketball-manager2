@@ -4,51 +4,36 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 
 import team.Team;
 import team.TeamInit;
 import player.*;
 
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.awt.event.ActionEvent;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-
-import java.awt.Toolkit;
 import javax.swing.JComboBox;
-
+/**
+ * Class for drafting session of the game
+ */
 public class draftingGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -61,7 +46,9 @@ public class draftingGUI extends JFrame {
 	private Player selectedPlayer;
 	
 	/**
-	 * Launch the application.
+	 * Launch the application
+	 * @param userArr Array type, stores user information
+	 * @param userTeam Team type, user's team object
 	 */
 	public static void runDraftingGUI(String[] userArr, Team userTeam) {
 		EventQueue.invokeLater(new Runnable() {
@@ -77,6 +64,12 @@ public class draftingGUI extends JFrame {
 		});
 	}
 
+	/**
+	 * Static block that shuffles the teams to randomize the selecting order
+	 * It also adds the teams to a reversed order list to use it in stages
+	 * It also appends the team names in an ordered form to a string
+	 * This string is shown to the user
+	 */
 	static {
 		Collections.shuffle(selectingOrder);
 		
@@ -87,6 +80,10 @@ public class draftingGUI extends JFrame {
 		Collections.reverse(selectingOrderReversed);	
 	}
 	
+	/**
+	 * 
+	 * @return JFrame, return the current frame
+	 */
 	protected JFrame getDraftingGUIFrame() {
 		return this;
 	}
@@ -113,7 +110,6 @@ public class draftingGUI extends JFrame {
 		
 		JButton teamLogoBtn = new JButton("");
 		teamLogoBtn.setIcon(new ImageIcon("C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg"));
-		
 		JLabel selectingOrderLbl = new JLabel("Selecting order");
 		selectingOrderLbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		panel.add(selectingOrderLbl, "cell 7 1 3 1,alignx center,aligny bottom");
@@ -145,13 +141,17 @@ public class draftingGUI extends JFrame {
 		JButton saveChoiceBtn = new JButton("saveChoice");
 		saveChoiceBtn.setEnabled(false);
 		saveChoiceBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action for saving the user's player choice in drafting session
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				@SuppressWarnings("unchecked")
 				DisplayItem<Player> selectedDisplayItem = (DisplayItem<Player>) comboBox.getSelectedItem();
 				
 				selectedPlayer = selectedDisplayItem.getObject();
 				userTeam.addPlayer(selectedPlayer);
-				draftedPlayerTextArea.append("Center player: " + selectedDisplayItem.getObject().getName() + "\n Points: " + selectedDisplayItem.getObject().getPoints() + "\n Rebounds: " + selectedDisplayItem.getObject().getRebounds() + 
+				draftedPlayerTextArea.append("Player: " + selectedDisplayItem.getObject().getName() + "\n Points: " + selectedDisplayItem.getObject().getPoints() + "\n Rebounds: " + selectedDisplayItem.getObject().getRebounds() + 
 						"\n Assists: " + selectedDisplayItem.getObject().getAssists() + "\n Steals: " + selectedDisplayItem.getObject().getSteals() + "\n Blocks: " + selectedDisplayItem.getObject().getBlocks() + "\n");
 				selectingTeamLbl.setText(userTeam.getTeamName());
 				ImageIcon imageIcon = new ImageIcon(userTeam.getImgDir());
@@ -171,6 +171,12 @@ public class draftingGUI extends JFrame {
 		
 		
 		nextStepBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to progress in game's tours
+			 * Each time the next button is pressed, next team in the line will draft player
+			 * There are five tours for five different positions in the game
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				Team teamInLine;
 				
@@ -332,14 +338,16 @@ public class draftingGUI extends JFrame {
 		
 
 		panel.add(comboBox, "cell 7 7 3 1,growx");
-		
 		panel.add(saveChoiceBtn, "cell 8 8,alignx center");
 		panel.add(nextStepBtn, "cell 7 11");
-		
 		panel.add(teamLogoBtn, "cell 3 2,alignx center,aligny center");
 		
 		
 		startTournament.addActionListener(new ActionListener() {
+			/**
+			 * Button action to start the tournament after the drafting ends
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				for (Team team : TeamInit.getTeams()) {
 					System.out.println(team.getTeamName());
@@ -348,6 +356,21 @@ public class draftingGUI extends JFrame {
 						System.out.println(player.getName() + " Position: " + player.getPosition());
 					}
 				}
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter("src\\team\\team.txt"))) {
+					for(Team team : team.TeamInit.getTeams()) {
+						bw.write(team.getTeamName());
+						bw.newLine();
+						for(Player player : team.getPlayers()) {
+							bw.write(player.toString());
+							bw.newLine();
+						}
+						bw.newLine();
+					}
+					bw.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				Matchmaking.initMatchmaking(userArr, userTeam);
 				getDraftingGUIFrame().dispose();
 			}
@@ -355,6 +378,9 @@ public class draftingGUI extends JFrame {
 		
 		
 		viewTeamBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to show team info frame
+			 */
 			public void actionPerformed(ActionEvent e) {
 				TeamInfo.initTeamInfo(userArr, userTeam);
 			}
@@ -370,21 +396,38 @@ public class draftingGUI extends JFrame {
 	/**
 	 * Generic class for displaying items
 	 * In my case T is passed as Player
+	 * This static class is used in combo box
+	 * Using this, I display the toString information of players in combo box
+	 * When the user selects a specific player in the combo box,
+	 * using this generic class I can get the according player object
 	 * @param <T>
 	 */
 	private static class DisplayItem<T>{
 		private T object;
 		private String displayString;
 		
+		/**
+		 * Constructor for DisplayItem
+		 * @param object
+		 * @param displayString
+		 */
 		public DisplayItem(T object, String displayString) {
 			this.object = object;
 			this.displayString = displayString;
 		}
 		
+		/**
+		 * Returns the object 
+		 * @return T
+		 */
 		public T getObject() {
 			return object;
 		}
 		
+		/**
+		 * Returns the toString form specified in the player class
+		 * @return String
+		 */
 		@Override
 		public String toString() {
 			return displayString;

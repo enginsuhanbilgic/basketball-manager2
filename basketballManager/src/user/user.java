@@ -1,21 +1,8 @@
 package user;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.JOptionPane;
-
-import userGUI.*;
-
+/**
+ * User class to create users that can be used to 
+ * log in or register to the application
+ */
 public class user {
 	
 	private String nickname;
@@ -28,6 +15,20 @@ public class user {
 	private static int cnt=0;
 	private int index;
 	
+	/**
+	 * 
+	 * User class constructor with parameters accordingly
+	 * 
+	 * @author EBILGIC20
+	 * 
+	 * @param nickname
+	 * @param password
+	 * @param name
+	 * @param surname
+	 * @param age
+	 * @param email
+	 * @param imgDir
+	 */
 	public user(String nickname, String password, String name, String surname, 
 			int age, String email, String imgDir) {
 		
@@ -43,6 +44,10 @@ public class user {
 		cnt++;
 	}
 	
+	/**
+	 * Getter methods for user
+	 * @return of different types
+	 */
 	public static int getUserCount() {return cnt;}
 	public String getNickname() {return this.nickname;}
 	public String getName() {return this.name;}
@@ -51,6 +56,10 @@ public class user {
 	public String getEmail() {return this.email;}
 	public String getImgdir() {return this.imgDir;}
 	
+	/**
+	 * Image Directory setter method
+	 * @param imgDir
+	 */
 	public void setImgdir(String imgDir) {this.imgDir = imgDir;}
 	
 }

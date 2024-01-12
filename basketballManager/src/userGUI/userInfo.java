@@ -45,6 +45,10 @@ public class userInfo extends JFrame {
 	private JTextField ageField;
 	private JTextField mailField;
 
+	/**
+	 * User info page initializer
+	 * @param userArr
+	 */
 	public static void userInfoInit(String[] userArr) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -60,47 +64,19 @@ public class userInfo extends JFrame {
 		});
 	}
 
+	/**
+	 * Method that returns the current frame
+	 * @return JFrame
+	 */
 	public JFrame getUserInfoFrame() {
 		return this;
 	}
 	
-	public userInfo(String[] userAr) {
-		final String[] userArr = new String[7];
-		if(userAr.length==0) {
-			userArr[0] = "null";
-			userArr[1] = "null";
-			userArr[2] = "null";
-			userArr[3] = "null";
-			userArr[4] = "0";
-			userArr[5] = "null";
-			userArr[6] = "C:\\\\Users\\\\EBILGIC20\\\\git\\\\repository2\\\\basketballManager\\\\src\\\\defaultProfileImage.jpg";
-			String username = "null";
-			String password = "null";
-			String name = "null";
-			String surname = "null";
-			int age = 0;
-			String email = "null";
-			String imgDir = "C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg";
-
-		}
-
-		if(userAr.length>0) {
-			userArr[0] = userAr[0];
-			userArr[1] = userAr[1];
-			userArr[2] = userAr[2];
-			userArr[3] = userAr[3];
-			userArr[4] = userAr[4];
-			userArr[5] = userAr[5];
-			userArr[6] = userAr[6];
-			String username = userArr[0];
-			String password = userArr[1];
-			String name = userArr[2];
-			String surname = userArr[3];
-			System.out.println(userArr[4]);
-			int age = Integer.parseInt(userArr[4]);
-			String email = userArr[5];
-			String imgDir = userArr[6];
-		}
+	/**
+	 * 
+	 * @param userArr
+	 */
+	public userInfo(String[] userArr) {
 
 		setTitle("User Information");
 		setResizable(false);
@@ -119,13 +95,14 @@ public class userInfo extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 
-		//Action listener for changing the profile image and saving it
-		//First we have our current image directory. When the user
-		//clicks the button, it opens the directory chooser and
-		//user can select an image. That image will take the place 
-		//of the old image in the txt file and in the user array
 		JButton changeImageBtn = new JButton("");
 		changeImageBtn.addActionListener(new ActionListener() {
+			/** Action event for changing the profile image and saving it
+			 *  First we have our current image directory. When the user
+			 *  clicks the button, it opens the directory chooser and
+			 *  user can select an image. That image will take the place 
+			 *  of the old image in the txt file and in the user array
+			 */
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
@@ -205,8 +182,7 @@ public class userInfo extends JFrame {
 		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
-		
-		
+
 		JLabel userInformationLbl = new JLabel("User Information");
 		userInformationLbl.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		GridBagConstraints gbc_userInformationLbl = new GridBagConstraints();
@@ -282,6 +258,11 @@ public class userInfo extends JFrame {
 		
 		JButton btnNewButton = new JButton("Start game");
 		btnNewButton.addActionListener(new ActionListener() {
+			/**
+			 * Start game button action.
+			 * When clicked, it first opens the team creation page
+			 * then disposes the current frame
+			 */
 			public void actionPerformed(ActionEvent e) {
 				initUserTeam.runInitUserTeam(userArr);
 				getUserInfoFrame().dispose();
@@ -309,11 +290,13 @@ public class userInfo extends JFrame {
 		panel.add(usernameField, gbc_usernameField);
 		usernameField.setColumns(10);
 		
-		//Action listener for changing the username
-		//Works similar to the image directory change
-		//But there is no file selection or image changing
 		JButton usernameBtn = new JButton("Change username");
 		usernameBtn.addActionListener(new ActionListener() {
+			/**
+			 * Action listener for changing the username
+			 * Works similar to the image directory change
+			 * But there is no file selection or image changing
+			 */
 			public void actionPerformed(ActionEvent e) {
 				String filePath = "src//user//user.txt"; 
 		        String usernameToFind = userArr[0]; 
@@ -404,6 +387,12 @@ public class userInfo extends JFrame {
 		
 		JButton passwordBtn = new JButton("Change password");
 		passwordBtn.addActionListener(new ActionListener() {
+			/**
+			 * Password change button action
+			 * It finds the user by its username
+			 * and changes the password with defined constraints
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				String filePath = "src//user//user.txt"; 
 		        String usernameToFind = userArr[0]; 
@@ -482,6 +471,12 @@ public class userInfo extends JFrame {
 		
 		JButton ageBtn = new JButton("Change age ");
 		ageBtn.addActionListener(new ActionListener() {
+			/**
+			 * Age change button action
+			 * It finds the user by its username
+			 * and changes the age with defined constraints
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				String filePath = "src//user//user.txt"; 
 		        String usernameToFind = userArr[0]; 
@@ -570,6 +565,12 @@ public class userInfo extends JFrame {
 		
 		JButton mailBtn = new JButton("Change mail");
 		mailBtn.addActionListener(new ActionListener() {
+			/**
+			 * E-mail change button action
+			 * It finds the user by its e-mail
+			 * and changes the mail with defined constraints
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				String filePath = "src//user//user.txt"; 
 		        String mailToFind = userArr[5]; 
@@ -643,6 +644,12 @@ public class userInfo extends JFrame {
 		
 		JButton goToLoginBtn = new JButton("Go to login page");
 		goToLoginBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to return to the login page
+			 * It first calls the main function
+			 * then disposes this frame
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				startProgram.main(null);
 				getUserInfoFrame().dispose();

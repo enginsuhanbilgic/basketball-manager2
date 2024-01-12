@@ -42,6 +42,9 @@ public class userRegister extends JFrame {
 
 	public static void userRegisterInit() {
 		EventQueue.invokeLater(new Runnable() {
+			/**
+			 * Method for initializing register page
+			 */
 			public void run() {
 				try {
 					userRegister frame = new userRegister();
@@ -55,6 +58,10 @@ public class userRegister extends JFrame {
 		});
 	}
 	
+	/**
+	 * Method that returns the current frame
+	 * @return JFrame
+	 */
 	public JFrame getRegisterFrame() {
 		return this;
 	}
@@ -249,6 +256,12 @@ public class userRegister extends JFrame {
 		JButton registerButton = new JButton("Register");
 		//Checks if information are valid and registers user
 		registerButton.addActionListener(new ActionListener() {
+			/**
+			 * Register button action 
+			 * It checks if the information fits the requirements
+			 * and then creates a User object and saves it to the
+			 * user.txt file
+			 */
 			public void actionPerformed(ActionEvent e) {
 				
 				String mailfield = mailField.getText();
@@ -360,6 +373,11 @@ public class userRegister extends JFrame {
 		
 		JButton loginPageButton = new JButton("Go to login page");
 		loginPageButton.addActionListener(new ActionListener() {
+			/**
+			 * Button action to go to login page
+			 * It calls the main function
+			 * and then disposes the current frame
+			 */
 			public void actionPerformed(ActionEvent e) {
 				startProgram.main(null);
 				getRegisterFrame().dispose();

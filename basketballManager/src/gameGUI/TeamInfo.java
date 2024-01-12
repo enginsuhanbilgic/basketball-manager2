@@ -22,7 +22,9 @@ import java.awt.Color;
 import javax.swing.BoxLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
-
+/**
+ * Class to show team information
+ */
 public class TeamInfo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -34,7 +36,10 @@ public class TeamInfo extends JFrame {
 	private static SG SGplayer;
 	
 	/**
-	 * Launch the application.
+	 * Method first seperates players according to their position
+	 * Then starts the frame 
+	 * @param userArr Array type, stores user information as string array
+	 * @param userTeam Team type, user's team
 	 */
 	public static void initTeamInfo(String[] userArr, Team userTeam) {
 		EventQueue.invokeLater(new Runnable() {
@@ -67,13 +72,19 @@ public class TeamInfo extends JFrame {
 		});
 	}
 	
+	/**
+	 * Returns the current frame
+	 * @return JFrame
+	 */
 	private JFrame getTeamInfoFrame() {
 		return this;
 	}
 
 
 	/**
-	 * Create the frame.
+	 * 
+	 * @param userArr Array type, stores user information as string array
+	 * @param userTeam Team type, user's team
 	 */
 	public TeamInfo(String[] userArr, Team userTeam) {
 		setBounds(100, 100, 650, 400);
@@ -84,7 +95,6 @@ public class TeamInfo extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(0, 0, 634, 361);
@@ -111,6 +121,10 @@ public class TeamInfo extends JFrame {
 		goBackBtn.setAlignmentY(Component.TOP_ALIGNMENT);
 		goBackBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		goBackBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to close the team info frame
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				getTeamInfoFrame().dispose();
 			}
@@ -125,6 +139,10 @@ public class TeamInfo extends JFrame {
 		centerPlayerBtn.setAlignmentY(Component.TOP_ALIGNMENT);
 		panel.add(centerPlayerBtn);
 		centerPlayerBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to see center player information
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				PlayerInfo.initPlayerInfo(Cplayer);
 			}
@@ -139,6 +157,10 @@ public class TeamInfo extends JFrame {
 		powerForwardPlayerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(powerForwardPlayerBtn);
 		powerForwardPlayerBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to see power forward player information
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				PlayerInfo.initPlayerInfo(PFplayer);
 			}
@@ -153,6 +175,10 @@ public class TeamInfo extends JFrame {
 		pointGuardPlayerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(pointGuardPlayerBtn);
 		pointGuardPlayerBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to see point guard player information
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				PlayerInfo.initPlayerInfo(PGplayer);
 			}
@@ -167,6 +193,10 @@ public class TeamInfo extends JFrame {
 		smallForwardPlayerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(smallForwardPlayerBtn);
 		smallForwardPlayerBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to see small forward player information
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				PlayerInfo.initPlayerInfo(SFplayer);
 			}
@@ -181,6 +211,10 @@ public class TeamInfo extends JFrame {
 		shootingGuardPlayerBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(shootingGuardPlayerBtn);
 		shootingGuardPlayerBtn.addActionListener(new ActionListener() {
+			/**
+			 * Button action to see shooting guard player information
+			 * @param e
+			 */
 			public void actionPerformed(ActionEvent e) {
 				PlayerInfo.initPlayerInfo(SGplayer);
 			}

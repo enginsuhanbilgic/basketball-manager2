@@ -31,6 +31,10 @@ public class userSignup extends JFrame {
 	private JPasswordField passwordField;
 	protected boolean found;
 	
+	/**
+	 * Method that returns the current frame
+	 * @return JFrame
+	 */
 	public JFrame getLoginFrame() {
 		return this;
 	}
@@ -132,8 +136,12 @@ public class userSignup extends JFrame {
 		
 		//Log in button
 		JButton btnNewButton = new JButton("Log in");
-		//Checks if the email/username and password is valid and sends it to user class
 		btnNewButton.addActionListener(new ActionListener() {
+			/**
+			 * Button action to log in
+			 * Checks if the email/username and password is valid by the user.txt
+			 * and if so, disposes this frame and calls the userInfo frame
+			 */
 			public void actionPerformed(ActionEvent e) {
 				
 				String mailField = email.getText();
@@ -192,6 +200,11 @@ public class userSignup extends JFrame {
 		
 		JButton registerPageButton = new JButton("Go to register page");
 		registerPageButton.addActionListener(new ActionListener() {
+			/**
+			 * Button action to go to register page
+			 * It first calls the register frame
+			 * then disposes the current frame
+			 */
 			public void actionPerformed(ActionEvent e) {
 				userRegister.userRegisterInit();
 				getLoginFrame().dispose();
