@@ -106,7 +106,7 @@ public class userInfo extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fc = new JFileChooser();
-				fc.setCurrentDirectory(fc.getFileSystemView().getParentDirectory(new File("C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\logos\\")));
+				fc.setCurrentDirectory(fc.getFileSystemView().getParentDirectory(new File("src\\logos\\")));
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				int result = fc.showOpenDialog(null);
 				if (result==JFileChooser.APPROVE_OPTION) {

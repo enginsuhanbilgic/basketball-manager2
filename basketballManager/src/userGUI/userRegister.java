@@ -330,7 +330,7 @@ public class userRegister extends JFrame {
 		        }
 			    
 				if(register && isEmailUnique && isUsernameUnique) {
-					String imgDir = "C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg";
+					String imgDir = "src\\defaultProfileImage.jpg";
 					String userInfoStr = String.format("%s,%s,%s,%s,%d,%s,%s",usernamefield, passwordfield, namefield, surnamefield, agefield, mailfield, imgDir);
 					String[] userArr = userInfoStr.split(",");
 					try(BufferedWriter bw = new BufferedWriter(new FileWriter("src//user//user.txt", true))) {

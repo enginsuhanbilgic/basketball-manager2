@@ -109,7 +109,7 @@ public class draftingGUI extends JFrame {
 		panel.setLayout(new MigLayout("", "[][][][grow][][][][][grow][grow][grow][][][][38.00]", "[][30.00][][21.00,grow][][grow][grow][grow][][][][][]"));
 		
 		JButton teamLogoBtn = new JButton("");
-		teamLogoBtn.setIcon(new ImageIcon("C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg"));
+		teamLogoBtn.setIcon(new ImageIcon("src\\defaultProfileImage.jpg"));
 		JLabel selectingOrderLbl = new JLabel("Selecting order");
 		selectingOrderLbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		panel.add(selectingOrderLbl, "cell 7 1 3 1,alignx center,aligny bottom");

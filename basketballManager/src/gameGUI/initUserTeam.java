@@ -32,7 +32,7 @@ public class initUserTeam extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField teamNameField;
-	private String imgDir = "C:\\Users\\EBILGIC20\\git\\repository2\\basketballManager\\src\\defaultProfileImage.jpg";
+	private String imgDir = "src\\defaultProfileImage.jpg";
 
 	/**
 	 * Initialize the frame
